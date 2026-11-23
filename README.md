@@ -1,75 +1,35 @@
 # ui-cards
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Digite um pensamento e ele vira um card: evento, lembrete, lista, timer, divisão de conta ou nota.
+Recriação em português do tutorial [Shapeshift do The Main Thread](https://www.the-main-thread.com/p/quarkus-shapeshift-ollama),
+usando a Decisions API da OpenAI no lugar do Ollama.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+- **OpenAI (`gpt-6-luna`)** só escolhe o tipo de card e diz se é urgente, com probabilidades.
+- **Java** extrai os campos (datas, horas, durações, valores) sem IA, no `CardParser`.
+- **O navegador** mostra o card editável e salva no `localStorage`.
 
-## Running the application in dev mode
+## Rodar
 
-You can run your application in dev mode that enables live coding using:
+1. Crie um arquivo `.env` na raiz do projeto (ele já está no `.gitignore`):
 
-```shell script
-./mvnw quarkus:dev
+   ```
+   OPENAI_API_KEY=sua-chave-aqui
+   ```
+
+2. Suba o app:
+
+   ```bash
+   ./mvnw quarkus:dev
+   ```
+
+3. Abra <http://127.0.0.1:8098>.
+
+Sem a chave, o app sobe do mesmo jeito: a classificação automática fica desligada, e você escolhe o card manualmente.
+
+## Testes
+
+```bash
+./mvnw test
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
-
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
-```
-
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/ui-cards-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Web Bundler ([guide](https://docs.quarkiverse.io/quarkus-web-bundler/dev/)): Creating full-stack Web Apps is fast and simple with this extension. Zero config bundling for your web-app scripts (js, jsx, ts, tsx), dependencies (jquery, react, htmx, ...) and styles (css, scss, sass).
-- LangChain4j OpenAI ([guide](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)): Provides the basic integration with LangChain4j
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
-
-### Web Bundler
-
-This is a tiny app `web-bundler.html` to get started with the Web Bundler. Once the quarkus app is started visit the generated page at http://localhost:8080/web-bundler.html
-
-[Related guide section...](https://docs.quarkiverse.io/quarkus-web-bundler/dev/)
-
+Os testes usam um servidor falso da OpenAI (`OpenAiStub`), então não precisam de chave nem geram custo.
